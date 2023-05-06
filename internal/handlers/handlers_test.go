@@ -28,6 +28,16 @@ func TestHandleLogin(t *testing.T) {
 			input:          `{"username":"wrong","password":"wrong"}`,
 			expectedStatus: http.StatusUnauthorized,
 		},
+		{
+			name:           "Insufficient credentials",
+			input:          `{"username":"","password":""}`,
+			expectedStatus: http.StatusUnauthorized,
+		},
+		{
+			name:           "Invalid request body",
+			input:          `{"username":,}`,
+			expectedStatus: http.StatusBadRequest,
+		},
 	}
 
 	for _, test := range tests {

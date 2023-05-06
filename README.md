@@ -95,3 +95,15 @@ make bench
 ```
 
 This command will run the benchmark tests in the internal/ directory and display the results, including the number of operations, the time taken per operation, and the memory usage.
+
+```sh
+make cover
+```
+
+This target runs the test suite for the entire project while collecting code coverage information. It generates a coverage report in the coverage.out file. After running the tests, it uses the go tool cover command with the -func flag to display the coverage percentages for each function in your code.
+
+```sh
+make cover-html
+```
+
+Similar to the cover target, this target also runs the test suite for the entire project while collecting code coverage information and generates a coverage report in the coverage.out file. However, instead of displaying the coverage percentages for each function, it generates an HTML coverage report using the go tool cover command with the -html flag. The HTML report is saved as coverage.html. The last line attempts to open the generated coverage.html file in the default web browser. The `xdg-open` command is used for Linux systems, and the `open` command is used for macOS systems, and the `start` is for Windows users.
