@@ -97,14 +97,16 @@ import (
         "encoding/json"
         "net/http"
 
-        "github.com/ASoldo/golang-ecolabel-backend/internal/config"
-        "github.com/ASoldo/golang-ecolabel-backend/internal/models"
+        "github.com/ASoldo/golang-ecolabel-backend/internal/services"
 )
 
 type loginRequest struct {
         Username string `json:"username"`
         Password string `json:"password"`
 }
+
+// userService is an instance of the UserServiceImpl struct
+var userService services.UserService = services.NewUserService()
 
 func HandleLogin(w http.ResponseWriter, r *http.Request) <span class="cov8" title="1">{
         var loginReq loginRequest
@@ -114,17 +116,16 @@ func HandleLogin(w http.ResponseWriter, r *http.Request) <span class="cov8" titl
                 return
         }</span>
 
-        <span class="cov8" title="1">if loginReq.Username == models.DemoUser.Username &amp;&amp;
-                loginReq.Password == models.DemoUser.Password </span><span class="cov8" title="1">{
-                tokenString := models.GenerateToken(config.JwtSecret)
-
-                w.Header().Set("Content-Type", "application/json")
-                json.NewEncoder(w).Encode(map[string]string{
-                        "token": tokenString,
-                })
-        }</span> else<span class="cov8" title="1"> {
+        <span class="cov8" title="1">token, err := userService.Authenticate(loginReq.Username, loginReq.Password)
+        if err != nil </span><span class="cov8" title="1">{
                 http.Error(w, "Invalid credentials", http.StatusUnauthorized)
+                return
         }</span>
+
+        <span class="cov8" title="1">w.Header().Set("Content-Type", "application/json")
+        json.NewEncoder(w).Encode(map[string]string{
+                "token": token,
+        })</span>
 }
 </pre>
 		
