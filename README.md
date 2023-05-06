@@ -1,8 +1,8 @@
 # golang-ecolabel-backend
 
-Golang implementation for EcoLabel project
+🔷 Golang implementation for 📗 EcoLabel project
 
-## Run api
+## Run api with Go CLI
 
 Start your API by running `go run main.go` in the terminal.
 Your API should start listening on port `3000`.
@@ -15,7 +15,7 @@ curl -X POST -H "Content-Type: application/json"
 http://localhost:3000/login
 ```
 
-### This command sends a POST request with the JSON payload
+This command sends a POST request with the JSON payload
 
 `{"username": "test", "password": "test"}` to the `/login` route.
 If the credentials are correct, the API will return a JWT token as a response.
@@ -41,3 +41,57 @@ If the token is valid, you should see a response similar to:
 ```
 
 If the token is invalid or not provided, the API will return a `401 Unauthorized` status with an error message.
+
+### Testing
+
+```sh
+go test -v ./...
+```
+
+### Benchmark
+
+```sh
+go test -bench=. -benchmem ./internal/...
+```
+
+## Run api with Makefile 💫
+
+### Building the project
+
+To build the project, run the following command:
+
+```sh
+make build
+```
+
+This will compile the project and create an executable in the bin/ directory called ecolabel.
+
+### Running the project
+
+To run the compiled executable, execute the following command:
+
+```sh
+make run
+```
+
+This command will first build the project and then run the compiled ecolabel executable.
+
+### Running tests
+
+To run all the tests in the project, use the following command:
+
+```sh
+make test
+```
+
+This will execute all the tests in the project and display the results.
+
+### Running benchmarks
+
+To run benchmark tests for the project, use the following command:
+
+```sh
+make bench
+```
+
+This command will run the benchmark tests in the internal/ directory and display the results, including the number of operations, the time taken per operation, and the memory usage.
