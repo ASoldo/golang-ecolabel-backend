@@ -107,3 +107,21 @@ make cover-html
 ```
 
 Similar to the cover target, this target also runs the test suite for the entire project while collecting code coverage information and generates a coverage report in the coverage.out file. However, instead of displaying the coverage percentages for each function, it generates an HTML coverage report using the go tool cover command with the -html flag. The HTML report is saved as coverage.html. The last line attempts to open the generated coverage.html file in the default web browser. The `xdg-open` command is used for Linux systems, and the `open` command is used for macOS systems, and the `start` is for Windows users.
+
+Here are curl examples for setting and getting session values:
+
+Set a session value:
+
+```sh
+curl -X POST http://localhost:3000/set-session-value -c cookies.txt
+```
+
+This will send a POST request to the /set-session-value endpoint and save the session cookie in a file called cookies.txt.
+
+Get the session value:
+
+```sh
+curl -X GET http://localhost:3000/get-session-value -b cookies.txt
+```
+
+This will send a GET request to the /get-session-value endpoint and use the session cookie stored in cookies.txt. The response should contain the session value you set earlier.

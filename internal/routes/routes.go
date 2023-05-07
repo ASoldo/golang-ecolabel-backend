@@ -7,6 +7,7 @@ import (
 
 	"github.com/ASoldo/golang-ecolabel-backend/internal/handlers"
 	customMiddleware "github.com/ASoldo/golang-ecolabel-backend/internal/middleware"
+	sessionMiddleware "github.com/ASoldo/golang-ecolabel-backend/internal/middleware"
 )
 
 // SetupRoutes configures the API routes and returns the configured router.
@@ -20,12 +21,19 @@ func SetupRoutes() *chi.Mux {
 	r.Use(middleware.RealIP)
 	r.Use(middleware.Logger)
 	r.Use(middleware.Recoverer)
+	r.Use(sessionMiddleware.SessionLoad)
 
 	// Define the /login route with a POST method
 	r.Post("/login", handlers.HandleLogin)
 
 	// Define the /dashboard route with a GET method and JWT authentication middleware
 	r.With(customMiddleware.JwtAuthMiddleware).Get("/dashboard", handlers.HandleDashboard)
+
+	// Define the /set-session-value route with a POST method
+	r.Post("/set-session-value", handlers.HandleSetSessionValue)
+
+	// Define the /get-session-value route with a GET method
+	r.Get("/get-session-value", handlers.HandleGetSessionValue)
 
 	// Return the configured router
 	return r
