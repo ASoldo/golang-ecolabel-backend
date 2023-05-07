@@ -7,6 +7,7 @@ import (
 
 	"github.com/ASoldo/golang-ecolabel-backend/internal/handlers"
 	customMiddleware "github.com/ASoldo/golang-ecolabel-backend/internal/middleware"
+	nosurfMiddleware "github.com/ASoldo/golang-ecolabel-backend/internal/middleware"
 	sessionMiddleware "github.com/ASoldo/golang-ecolabel-backend/internal/middleware"
 )
 
@@ -22,6 +23,7 @@ func SetupRoutes() *chi.Mux {
 	r.Use(middleware.Logger)
 	r.Use(middleware.Recoverer)
 	r.Use(sessionMiddleware.SessionLoad)
+	r.Use(nosurfMiddleware.NoSurf)
 
 	// Define the /login route with a POST method
 	r.Post("/login", handlers.HandleLogin)
@@ -34,6 +36,12 @@ func SetupRoutes() *chi.Mux {
 
 	// Define the /get-session-value route with a GET method
 	r.Get("/get-session-value", handlers.HandleGetSessionValue)
+
+	// Define the /csrf-token route with a GET method
+	r.Get("/csrf-token", handlers.HandleGetCSRFToken)
+
+	// Define the /submit route with NoSurf check for csrf-token
+	r.With(customMiddleware.NoSurf).Post("/submit", handlers.HandleSubmit)
 
 	// Return the configured router
 	return r
