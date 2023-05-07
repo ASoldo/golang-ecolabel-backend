@@ -108,6 +108,8 @@ make cover-html
 
 Similar to the cover target, this target also runs the test suite for the entire project while collecting code coverage information and generates a coverage report in the coverage.out file. However, instead of displaying the coverage percentages for each function, it generates an HTML coverage report using the go tool cover command with the -html flag. The HTML report is saved as coverage.html. The last line attempts to open the generated coverage.html file in the default web browser. The `xdg-open` command is used for Linux systems, and the `open` command is used for macOS systems, and the `start` is for Windows users.
 
+## SessionManager
+
 Here are curl examples for setting and getting session values:
 
 Set a session value:
@@ -125,3 +127,27 @@ curl -X GET http://localhost:3000/get-session-value -b cookies.txt
 ```
 
 This will send a GET request to the /get-session-value endpoint and use the session cookie stored in cookies.txt. The response should contain the session value you set earlier.
+
+## CSRF-Token
+
+First, run the following cURL command to get the CSRF token:
+
+```sh
+curl -c cookies.txt -X GET http://localhost:3000/csrf-token
+```
+
+This command sends a GET request to the /csrf-token endpoint and saves the cookies (including the session cookie) to a file named cookies.txt. The server should respond with a JSON object containing the CSRF token, like this:
+
+```json
+{"csrfToken": "your_csrf_token_here"}
+```
+
+Now, you can submit a form using the CSRF token. Replace your_csrf_token_here with the actual CSRF token you received in the previous step:
+
+```sh
+curl -b cookies.txt -X POST -H "Content-Type: application/json" -H "X-CSRF-Token: your_csrf_token_here" -d '{"field1": "value1", "field2": "value2"}' http://localhost:3000/submit
+```
+
+This command sends a POST request to the /submit endpoint, including the CSRF token in the X-CSRF-Token header and the form data as a JSON object in the request body. The -b cookies.txt option tells cURL to send the cookies saved in cookies.txt, so the server can recognize the session.
+
+Make sure to adjust the form data and endpoint URL to match your application requirements.
