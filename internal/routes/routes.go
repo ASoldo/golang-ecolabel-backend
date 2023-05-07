@@ -1,3 +1,4 @@
+// Package routes provides the API routing setup for the golang-ecolabel-backend project.
 package routes
 
 import (
@@ -8,16 +9,24 @@ import (
 	customMiddleware "github.com/ASoldo/golang-ecolabel-backend/internal/middleware"
 )
 
+// SetupRoutes configures the API routes and returns the configured router.
+// It sets up common middlewares and defines routes for the login and dashboard endpoints.
 func SetupRoutes() *chi.Mux {
+	// Create a new Chi router
 	r := chi.NewRouter()
 
+	// Set up common middlewares
 	r.Use(middleware.RequestID)
 	r.Use(middleware.RealIP)
 	r.Use(middleware.Logger)
 	r.Use(middleware.Recoverer)
 
+	// Define the /login route with a POST method
 	r.Post("/login", handlers.HandleLogin)
+
+	// Define the /dashboard route with a GET method and JWT authentication middleware
 	r.With(customMiddleware.JwtAuthMiddleware).Get("/dashboard", handlers.HandleDashboard)
 
+	// Return the configured router
 	return r
 }

@@ -1,6 +1,6 @@
+// Package main is the entry point for the golang-ecolabel-backend application.
 package main
 
-// "github.com/ASoldo/golang-ecolabel-backend/internal/errors"
 import (
 	"net/http"
 
@@ -8,11 +8,15 @@ import (
 	"github.com/ASoldo/golang-ecolabel-backend/internal/routes"
 )
 
+// main is the entry point of the golang-ecolabel-backend application.
+// It sets up the routes, logs that the application has started, and starts the HTTP server.
 func main() {
-	// err := errors.NewAppError(400, "Bad Request")
-	// logger.Error.Println(err)
-
+	// Set up the routes
 	r := routes.SetupRoutes()
+
+	// Log that the application has started
 	logger.Info.Println("Application started")
+
+	// Start the HTTP server on port 3000
 	http.ListenAndServe(":3000", r)
 }

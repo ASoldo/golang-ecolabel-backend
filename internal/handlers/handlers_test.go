@@ -12,6 +12,7 @@ import (
 	"github.com/ASoldo/golang-ecolabel-backend/internal/models"
 )
 
+// TestHandleLogin tests the HandleLogin function with different inputs and expected status codes.
 func TestHandleLogin(t *testing.T) {
 	tests := []struct {
 		name           string
@@ -60,6 +61,7 @@ func TestHandleLogin(t *testing.T) {
 	}
 }
 
+// TestHandleDashboard tests the HandleDashboard function with a valid JWT token.
 func TestHandleDashboard(t *testing.T) {
 	token := models.GenerateToken(config.JwtSecret)
 
@@ -81,6 +83,7 @@ func TestHandleDashboard(t *testing.T) {
 	}
 }
 
+// BenchmarkHandleLogin measures the performance of the HandleLogin function.
 func BenchmarkHandleLogin(b *testing.B) {
 	loginReq := `{"username":"test","password":"test"}`
 	reqBody := ioutil.NopCloser(bytes.NewReader([]byte(loginReq)))
@@ -93,6 +96,7 @@ func BenchmarkHandleLogin(b *testing.B) {
 	}
 }
 
+// BenchmarkHandleDashboard measures the performance of the HandleDashboard function.
 func BenchmarkHandleDashboard(b *testing.B) {
 	w := httptest.NewRecorder()
 
