@@ -15,7 +15,7 @@ func NoSurf(next http.Handler) http.Handler {
 		SameSite: http.SameSiteLaxMode,
 	})
 
-	// Exclude the /login route from CSRF protection.
+	// Exclude the routes from CSRF protection.
 	csrfHandler.ExemptPath("/login")
 	csrfHandler.ExemptPath("/set-session-value")
 	csrfHandler.ExemptPath("/get-session-value")
