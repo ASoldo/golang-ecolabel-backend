@@ -20,7 +20,7 @@ func SetupRoutes() *chi.Mux {
 	r.Use(middleware.RealIP)
 	r.Use(middleware.Logger)
 	r.Use(middleware.Recoverer)
-	r.Use(customMiddleware.SessionLoad)
+	// r.Use(customMiddleware.SessionLoad)
 	r.Use(customMiddleware.NoSurf)
 
 	// Define the /login route with a POST method
@@ -30,10 +30,10 @@ func SetupRoutes() *chi.Mux {
 	r.With(customMiddleware.JwtAuthMiddleware).Get("/dashboard", handlers.HandleDashboard)
 
 	// Define the /set-session-value route with a POST method
-	r.Post("/set-session-value", handlers.HandleSetSessionValue)
+	// r.Post("/set-session-value", handlers.HandleSetSessionValue)
 
 	// Define the /get-session-value route with a GET method
-	r.Get("/get-session-value", handlers.HandleGetSessionValue)
+	// r.Get("/get-session-value", handlers.HandleGetSessionValue)
 
 	// Define the /csrf-token route with a GET method
 	r.Get("/csrf-token", handlers.HandleGetCSRFToken)
