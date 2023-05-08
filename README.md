@@ -10,9 +10,7 @@ Your API should start listening on port `3000`.
 In another terminal window, first, send a login request to obtain a JWT token:
 
 ```sh
-curl -X POST -H "Content-Type: application/json"
--d '{"username": "test", "password": "test"}' 
-http://localhost:3000/login
+curl -v -X POST -H "Content-Type: application/json" -d '{"username": "test", "password": "test", "group_id": "test"}' http://localhost:3000/login
 ```
 
 This command sends a POST request with the JSON payload
