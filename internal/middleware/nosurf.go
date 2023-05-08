@@ -11,8 +11,12 @@ func NoSurf(next http.Handler) http.Handler {
 	csrfHandler.SetBaseCookie(http.Cookie{
 		HttpOnly: true,
 		Path:     "/",
-		Secure:   false,
+		Secure:   App.InProduction,
 		SameSite: http.SameSiteLaxMode,
 	})
+
+	// Exclude the /login route from CSRF protection.
+	csrfHandler.ExemptPath("/login")
+
 	return csrfHandler
 }

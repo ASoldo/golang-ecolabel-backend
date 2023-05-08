@@ -3,6 +3,7 @@ package handlers
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 
 	"github.com/ASoldo/golang-ecolabel-backend/internal/services"
@@ -24,12 +25,20 @@ func HandleLogin(w http.ResponseWriter, r *http.Request) {
 	var loginReq loginRequest
 	err := json.NewDecoder(r.Body).Decode(&loginReq)
 	if err != nil {
+		fmt.Printf("Invalid request body: %v\n", err)
 		http.Error(w, "Invalid request body", http.StatusBadRequest)
+		return
+	}
+
+	if loginReq.Username == "" || loginReq.Password == "" {
+		fmt.Println("Empty username or password")
+		http.Error(w, "Empty username or password", http.StatusBadRequest)
 		return
 	}
 
 	token, err := userService.Authenticate(loginReq.Username, loginReq.Password)
 	if err != nil {
+		fmt.Printf("Invalid credentials: %v\n", err)
 		http.Error(w, "Invalid credentials", http.StatusUnauthorized)
 		return
 	}
