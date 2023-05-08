@@ -11,12 +11,14 @@ import (
 type User struct {
 	Username string `json:"username"`
 	Password string `json:"password"`
+	GroupID  string `json:"group_id"`
 }
 
-// DemoUser is a pre-defined user with a username and password for demonstration purposes.
+// DemoUser is a pre-defined user with a username, password, and group_id for demonstration purposes.
 var DemoUser = User{
 	Username: "test",
 	Password: "test",
+	GroupID:  "test",
 }
 
 // GenerateToken creates a JWT token for the DemoUser with a 1-hour expiration time.
@@ -25,6 +27,7 @@ func GenerateToken(secret string) string {
 	// Create a new JWT token with claims
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"username": DemoUser.Username,
+		"group_id": DemoUser.GroupID,
 		"exp":      time.Now().Add(1 * time.Hour).Unix(),
 	})
 

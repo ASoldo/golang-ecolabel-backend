@@ -10,9 +10,11 @@ import (
 )
 
 // loginRequest represents the expected structure of the login request's JSON body.
+
 type loginRequest struct {
 	Username string `json:"username"`
 	Password string `json:"password"`
+	GroupID  string `json:"group_id"`
 }
 
 // userService is an instance of the UserServiceImpl struct.
@@ -36,7 +38,7 @@ func HandleLogin(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	token, err := userService.Authenticate(loginReq.Username, loginReq.Password)
+	token, err := userService.Authenticate(loginReq.Username, loginReq.Password, loginReq.GroupID)
 	if err != nil {
 		fmt.Printf("Invalid credentials: %v\n", err)
 		http.Error(w, "Invalid credentials", http.StatusUnauthorized)

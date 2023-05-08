@@ -8,7 +8,7 @@ import (
 
 // UserService is an interface that defines the contract for user-related services.
 type UserService interface {
-	Authenticate(username, password string) (string, error)
+	Authenticate(username, password, groupID string) (string, error)
 }
 
 // UserServiceImpl is a struct that implements the UserService interface.
@@ -21,8 +21,10 @@ func NewUserService() UserService {
 
 // Authenticate is a method of UserServiceImpl that checks if the provided username and password
 // match the demo user's credentials. If they match, it returns a JWT token; otherwise, it returns an error.
-func (s *UserServiceImpl) Authenticate(username, password string) (string, error) {
-	if username == models.DemoUser.Username && password == models.DemoUser.Password {
+
+func (s *UserServiceImpl) Authenticate(username, password, groupID string) (string, error) {
+	if username == models.DemoUser.Username && password == models.DemoUser.Password &&
+		groupID == models.DemoUser.GroupID {
 		return models.GenerateToken(config.JwtSecret), nil
 	}
 	return "", errors.NewAppError(401, "Invalid credentials")
