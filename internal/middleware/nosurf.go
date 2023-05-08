@@ -17,6 +17,8 @@ func NoSurf(next http.Handler) http.Handler {
 
 	// Exclude the /login route from CSRF protection.
 	csrfHandler.ExemptPath("/login")
+	csrfHandler.ExemptPath("/set-session-value")
+	csrfHandler.ExemptPath("/get-session-value")
 
 	return csrfHandler
 }
